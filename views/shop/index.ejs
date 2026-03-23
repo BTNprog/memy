@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div>
+        <h1>Memy Shop</h1>
+        <p>Browse products and add them to your cart.</p>
+      </div>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <a class="button secondary" href="/cart">Cart (<%= Object.values(cart || {}).reduce((a, b) => a + b, 0) %>)</a>
+        <% if (user && user.email === 'user@example.com') { %>
+          <a class="button secondary" href="/admin">Admin</a>
+        <% } %>
+        <a class="button secondary" href="/auth/logout">Logout</a>
+      </div>
+    </header>
+
+    <div class="grid">
+      <% products.forEach(product => { %>
+        <article class="card product">
+          <img src="<%= product.image %>" alt="<%= product.name %>" />
+          <h2><%= product.name %></h2>
+          <p><%= product.description %></p>
+          <p><strong>$<%= parseFloat(product.price).toFixed(2) %></strong></p>
+
+          <form action="/cart/add" method="post">
+            <input type="hidden" name="product_id" value="<%= product.id %>" />
+            <button class="button" type="submit">Add to cart</button>
+          </form>
+        </article>
+      <% }); %>
+    </div>
+  </div>
+</body>
+</html>

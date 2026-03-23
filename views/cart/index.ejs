@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div>
+        <h1>Your Cart</h1>
+        <p>Review your items before checkout.</p>
+      </div>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <span style="font-size: 0.9rem; color: #666;">Hello, <%= user.name %></span>
+        <a class="button secondary" href="/products">Continue shopping</a>
+        <a class="button secondary" href="/auth/logout">Logout</a>
+      </div>
+    </header>
+
+    <% if (message) { %>
+      <div class="alert"><%= message %></div>
+    <% } %>
+
+    <% if (cartItems && cartItems.length > 0) { %>
+      <form method="post" action="/cart/update">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Price</th>
+              <th>Qty</th>
+              <th>Subtotal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% cartItems.forEach(item => { %>
+              <tr>
+                <td>
+                  <img src="<%= item.image %>" alt="<%= item.name %>" style="max-width: 80px; max-height: 80px; display: block; margin-bottom: 8px;" />
+                  <%= item.name %>
+                </td>
+                <td>$<%= parseFloat(item.price).toFixed(2) %></td>
+                <td>
+                  <input type="number" name="qty[<%= item.id %>]" value="<%= item.quantity %>" min="0" style="width: 70px;" />
+                </td>
+                <td>$<%= item.subtotal.toFixed(2) %></td>
+              </tr>
+            <% }); %>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="3" style="text-align:right;"><strong>Total:</strong></td>
+              <td><strong>$<%= total %></strong></td>
+            </tr>
+          </tfoot>
+        </table>
+
+        <div style="margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap;">
+          <button class="button" type="submit">Update cart</button>
+          <button class="button secondary" formaction="/cart/clear" type="submit">Clear cart</button>
+          <a class="button" href="/checkout">Proceed to Checkout</a>
+        </div>
+      </form>
+    <% } else { %>
+      <div class="card">
+        <p>Your cart is empty. <a href="/products">Browse products</a>.</p>
+      </div>
+    <% } %>
+  </div>
+</body>
+</html>

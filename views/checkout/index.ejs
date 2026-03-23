@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div>
+        <h1>Checkout</h1>
+        <p>Enter your details and confirm your order.</p>
+      </div>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <span style="font-size: 0.9rem; color: #666;">Hello, <%= user.name %></span>
+        <a class="button secondary" href="/cart">Back to cart</a>
+        <a class="button secondary" href="/auth/logout">Logout</a>
+      </div>
+    </header>
+
+    <% if (errors && errors.length > 0) { %>
+      <div class="alert">
+        <ul style="margin:0; padding-left: 18px;">
+          <% errors.forEach(error => { %>
+            <li><%= error %></li>
+          <% }); %>
+        </ul>
+      </div>
+    <% } %>
+
+    <div class="card">
+      <h2>Order Summary</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Qty</th>
+            <th>Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% items.forEach(item => { %>
+            <tr>
+              <td style="display: flex; gap: 10px; align-items: center;">
+                <img src="<%= item.image %>" alt="<%= item.name %>" style="width: 72px; height: 72px; object-fit: cover; border-radius: 6px;" />
+                <span><%= item.name %></span>
+              </td>
+              <td><%= item.quantity %></td>
+              <td>$<%= item.subtotal.toFixed(2) %></td>
+            </tr>
+          <% }); %>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="2" style="text-align:right;"><strong>Total:</strong></td>
+            <td><strong>$<%= total %></strong></td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <form method="post" action="/checkout" style="margin-top: 18px;">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" value="<%= name %>" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" value="<%= email %>" required />
+        </div>
+        <button class="button" type="submit">Place Order</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

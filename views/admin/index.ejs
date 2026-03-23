@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div>
+        <h1>Admin</h1>
+        <p>Add a new product to the store.</p>
+      </div>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <a class="button secondary" href="/products">Back to shop</a>
+        <a class="button secondary" href="/auth/logout">Logout</a>
+      </div>
+    </header>
+
+    <% if (errors && errors.length > 0) { %>
+      <div class="alert">
+        <ul style="margin:0; padding-left: 18px;">
+          <% errors.forEach(error => { %>
+            <li><%= error %></li>
+          <% }); %>
+        </ul>
+      </div>
+    <% } %>
+
+    <% if (success) { %>
+      <div class="alert" style="background: #daf7dc; color: #0b6623;">
+        <%= success %>
+      </div>
+    <% } %>
+
+    <div class="card">
+      <form method="post" action="/admin">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" value="<%= name %>" required />
+        </div>
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea id="description" name="description" rows="4" required><%= description %></textarea>
+        </div>
+        <div class="form-group">
+          <label for="price">Price ($)</label>
+          <input id="price" name="price" type="number" step="0.01" value="<%= price %>" required />
+        </div>
+        <div class="form-group">
+          <label for="image">Image URL</label>
+          <input id="image" name="image" type="url" value="<%= image %>" required />
+        </div>
+        <button class="button" type="submit">Add Product</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

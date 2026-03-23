@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div>
+        <h1>Order Confirmed!</h1>
+        <p>Thank you for your purchase.</p>
+      </div>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <a class="button secondary" href="/products">Continue shopping</a>
+        <a class="button secondary" href="/auth/logout">Logout</a>
+      </div>
+    </header>
+
+    <div class="card">
+      <h2>Order Details</h2>
+      <p><strong>Order ID:</strong> <%= order.id %></p>
+      <p><strong>Customer Name:</strong> <%= order.customer_name %></p>
+      <p><strong>Email:</strong> <%= order.customer_email %></p>
+      <p><strong>Total:</strong> $<%= parseFloat(order.total).toFixed(2) %></p>
+      <p><strong>Date:</strong> <%= new Date(order.created_at).toLocaleString() %></p>
+
+      <h3>Items</h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% items.forEach(item => { %>
+            <tr>
+              <td><%= item.name %></td>
+              <td><%= item.quantity %></td>
+              <td>$<%= parseFloat(item.price).toFixed(2) %></td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>
